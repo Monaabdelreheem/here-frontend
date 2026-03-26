@@ -3,6 +3,7 @@ import IntroPage from './pages/IntroPage'
 import MoodCheckPage from './pages/MoodCheckPage'
 import AuthPage from './pages/AuthPage'
 import DashboardPage from './pages/DashboardPage'
+import './index.css';
 
 function App() {
   return (
