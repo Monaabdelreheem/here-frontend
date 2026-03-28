@@ -1,7 +1,124 @@
+
+/* Ensure base styles for centering and background are present */
 .intro {
   font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  background-color: #F6F0D7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  margin: auto;
+  cursor: pointer;
+}
+
+.intro__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  text-align: center;
+  max-width: 500px;
+  margin: 0 auto;
+  position: relative;
+  min-height: 220px; /* more space for gap */
 }
 
 .intro__title {
-  font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  color: #89986D;
+  font-weight: 700;
+}
+
+.intro__text--fade {
+  margin: 0;
+  white-space: nowrap;
+  opacity: 0;
+  animation: fadeInTextUp 0.9s cubic-bezier(0.4, 0.7, 0.2, 1.1) forwards;
+}
+
+.here-animated {
+  display: flex;
+  gap: 0.2em;
+}
+
+.here-letter {
+  opacity: 0;
+  transform: translateY(-80px) scale(0.8) rotate(0deg);
+  display: inline-block;
+  animation: hereFall 3.5s cubic-bezier(0.4, 0.7, 0.2, 1.1) forwards;
+}
+
+@keyframes hereFall {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0deg);
+  }
+}
+
+.here-letter--flip {
+  animation: hereFlip 3.5s cubic-bezier(0.4, 0.7, 0.2, 1.1) forwards;
+  transform-style: preserve-3d;
+}
+
+@keyframes hereFlip {
+  80% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotateY(0deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotateY(180deg);
+  }
+}
+
+@keyframes fadeInTextUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.intro__text {
+  font-size: 1.2rem;
+  color: #6b756b;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+
+.intro__text--tap {
+  margin: 0;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  animation: pulseHint 1.6s ease-in-out infinite;
+}
+
+@keyframes pulseHint {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
