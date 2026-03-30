@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import IntroPage from './pages/IntroPage'
 import MoodCheckPage from './pages/MoodCheckPage'
@@ -8,19 +7,6 @@ import SignUpPage from './pages/SignUpPage'
 import './index.css';
 
 function App() {
-  useEffect(() => {
-    try {
-      const raw = sessionStorage.getItem('here.moodTheme')
-      if (!raw) return
-
-      const theme = JSON.parse(raw)
-      if (theme?.page) {
-        document.body.style.backgroundColor = theme.page
-      }
-    } catch {
-      // keep default background on invalid session data
-    }
-  }, [])
 
   return (
     <Routes>

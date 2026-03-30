@@ -2,24 +2,18 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './IntroPage.css';
 import { playAmbientAudio, setAmbientVolume } from '../utils/ambientAudio';
+import AnimatedHere from '../components/AnimatedHere/AnimatedHere';
 
 const ENABLE_AMBIENT_AUDIO = false;
-
-function AnimatedHere() {
-  return (
-    <span className="here-animated">
-      <span className="here-letter" style={{ animationDelay: '0.2s' }}>H</span>
-      <span className="here-letter" style={{ animationDelay: '1.2s' }}>E</span>
-      <span className="here-letter" style={{ animationDelay: '2.2s' }}>R</span>
-      <span className="here-letter here-letter--flip" style={{ animationDelay: '3.2s' }}>E</span>
-    </span>
-  );
-}
 
 function IntroPage() {
   const navigate = useNavigate();
   const [started, setStarted] = useState(false);
   const startedRef = useRef(false);
+
+  useEffect(() => {
+    document.body.style.backgroundColor = '#f6f0d7';
+  }, []);
 
   const handleStart = useCallback(() => {
     if (startedRef.current) return;
@@ -37,7 +31,7 @@ function IntroPage() {
 
     setTimeout(() => {
       navigate('/mood');
-    }, 12000);
+    }, 4000);
   }, [navigate]);
 
   useEffect(() => {
@@ -61,10 +55,10 @@ function IntroPage() {
   }, [handleStart]);
 
   return (
-    <section className="intro" onClick={handleStart}>
+    <section className={`intro${started ? ' intro--started' : ''}`} onClick={handleStart}>
       <div className="intro__content">
         <h1 className="intro__title">
-          <AnimatedHere />
+          <AnimatedHere variant="intro" />
         </h1>
 
         <p className="intro__text intro__text--fade">Breathe in. You're HERE.</p>

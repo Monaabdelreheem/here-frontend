@@ -1,0 +1,119 @@
+.dashboard {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #d7ddcd;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.dashboard__logo {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: #394334;
+  letter-spacing: 0.08em;
+}
+
+.dashboard__user {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.dashboard__name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #3f493a;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dashboard__loading {
+  font-size: 0.9rem;
+  color: #9baa8f;
+}
+
+.dashboard__error {
+  font-size: 0.9rem;
+  color: #a63025;
+}
+
+.dashboard__signout {
+  border: 1px solid #d7ddcd;
+  background: #ffffff;
+  color: #3f493a;
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.dashboard__signout:hover {
+  background: #f4f7f0;
+  border-color: #aab99a;
+}
+
+.dashboard__main {
+  flex: 1;
+  padding: 32px 24px;
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.dashboard__mood-card {
+  background: #ffffff;
+  border: 1px solid #d7ddcd;
+  border-radius: 16px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 4px 12px rgba(80, 90, 76, 0.08);
+}
+
+.dashboard__mood-label {
+  margin: 0;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #5b6652;
+  font-weight: 700;
+}
+
+.dashboard__mood-value {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #394334;
+}
+
+@media (max-width: 480px) {
+  .dashboard__header {
+    padding: 12px 16px;
+  }
+
+  .dashboard__main {
+    padding: 20px 16px;
+  }
+
+  .dashboard__name {
+    display: none;
+  }
+}

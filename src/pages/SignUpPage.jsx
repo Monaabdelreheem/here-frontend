@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { signUp } from '../utils/api';
+import { signUp, signIn } from '../utils/api';
 import useMoodTheme from '../utils/useMoodTheme';
 import './AuthForm.css';
 
@@ -19,8 +19,17 @@ function SignUpPage() {
     setIsLoading(true);
 
     signUp({ name, email, password })
-      .then(() => {
-        navigate('/signin');
+      .then((data) => {
+        if (data?.token) {
+          localStorage.setItem('here.token', data.token);
+          navigate('/dashboard');
+          return null;
+        }
+
+        return signIn({ email, password }).then((signinData) => {
+          localStorage.setItem('here.token', signinData.token);
+          navigate('/dashboard');
+        });
       })
       .catch((err) => {
         setError(err.message || 'Something went wrong. Please try again.');
