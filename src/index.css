@@ -1,5 +1,8 @@
 body {
   font-family: 'Nunito', sans-serif;
+  background: #f6f0d7;
+  margin: 0;
+  transition: background-color 0.25s ease;
 }
 
 .logo {

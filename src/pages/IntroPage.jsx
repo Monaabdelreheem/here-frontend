@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import './IntroPage.css';
 import { playAmbientAudio, setAmbientVolume } from '../utils/ambientAudio';
 
+const ENABLE_AMBIENT_AUDIO = false;
+
 function AnimatedHere() {
   return (
     <span className="here-animated">
@@ -26,10 +28,12 @@ function IntroPage() {
 
     setStarted(true);
 
-    setAmbientVolume(0.5);
-    playAmbientAudio().catch((err) => {
-      console.log('Audio play failed:', err);
-    });
+    if (ENABLE_AMBIENT_AUDIO) {
+      setAmbientVolume(0.5);
+      playAmbientAudio().catch((err) => {
+        console.log('Audio play failed:', err);
+      });
+    }
 
     setTimeout(() => {
       navigate('/mood');
