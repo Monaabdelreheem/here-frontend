@@ -61,17 +61,32 @@ function isNetworkError(err) {
     || message.includes('connection refused');
 }
 
+function getFallbackUserFromToken(token) {
+  const users = readMockUsers();
+
+  if (!token || !token.includes('mock-token')) {
+    return null;
+  }
+
+  const user = users[users.length - 1];
+  return user ? { name: user.name, email: user.email } : null;
+}
+
 export function getUserInfo(token) {
+  const fallbackUser = getFallbackUserFromToken(token);
+
+  if (fallbackUser) {
+    return Promise.resolve(fallbackUser);
+  }
+
   return fetch(`${BASE_URL}/users/me`, {
     headers: { Authorization: `Bearer ${token}` },
   })
     .then(handleResponse)
     .catch((err) => {
       if (isNetworkError(err)) {
-        const users = readMockUsers();
-        const mockToken = localStorage.getItem('here.token') || '';
-        const user = users.find((u) => mockToken.includes('mock-token')) || users[users.length - 1];
-        if (user) return Promise.resolve({ name: user.name, email: user.email });
+        const recoveredUser = getFallbackUserFromToken(localStorage.getItem('here.token') || '');
+        if (recoveredUser) return Promise.resolve(recoveredUser);
         return Promise.reject({ message: 'Could not load user info.' });
       }
       return Promise.reject(err);
@@ -118,4 +133,16 @@ export function signUp({ name, email, password }) {
 
       return Promise.reject(err);
     });
+}
+
+export function getWeather(latitude, longitude) {
+  return fetch(
+    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
+  ).then(handleResponse);
+}
+
+export function getLocationName(latitude, longitude) {
+  return fetch(
+    `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`
+  ).then(handleResponse);
 }
