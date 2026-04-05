@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getUserInfo } from '../utils/api';
+import { getLocationName, getUserInfo, getWeather } from '../utils/api';
 import useMoodTheme from '../utils/useMoodTheme';
 import AnimatedHere from '../components/AnimatedHere/AnimatedHere';
+import WeatherPanel from '../components/dashboard/WeatherPanel';
+import TaskCard from '../components/dashboard/TaskCard';
+import JournalCard from '../components/dashboard/JournalCard';
 import './DashboardPage.css';
 
 const MOOD_MESSAGES = {
@@ -14,6 +17,7 @@ const MOOD_MESSAGES = {
 };
 
 const JOURNAL_KEY = 'here.journalEntry';
+const TASKS_KEY = 'here.dashboardTasks';
 
 const JOURNAL_PROMPTS = {
   Happy: 'Share something that made you smile today.',
@@ -23,6 +27,14 @@ const JOURNAL_PROMPTS = {
   Tired: 'Imagine what real rest would feel like right now.',
 };
 
+function createTask(text, index) {
+  return {
+    id: `${Date.now()}-${index}-${text.slice(0, 12)}`,
+    text,
+    done: false,
+  };
+}
+
 function DashboardPage() {
   const navigate = useNavigate();
   const theme = useMoodTheme();
@@ -31,6 +43,12 @@ function DashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [journalText, setJournalText] = useState('');
   const [journalStatus, setJournalStatus] = useState('');
+  const [tasks, setTasks] = useState([]);
+  const [taskInput, setTaskInput] = useState('');
+  const [weatherData, setWeatherData] = useState(null);
+  const [weatherLocation, setWeatherLocation] = useState('');
+  const [weatherError, setWeatherError] = useState('');
+  const [temperatureUnit, setTemperatureUnit] = useState('C');
 
   const moodData = (() => {
     try {
@@ -74,6 +92,55 @@ function DashboardPage() {
     }
   }, []);
 
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(TASKS_KEY);
+      if (!raw) {
+        setTasks([]);
+        return;
+      }
+
+      const savedTasks = JSON.parse(raw);
+      setTasks(Array.isArray(savedTasks) ? savedTasks : []);
+    } catch {
+      setTasks([]);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!navigator.geolocation) {
+      setWeatherError('Location is unavailable on this device.');
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      ({ coords }) => {
+        Promise.all([
+          getWeather(coords.latitude, coords.longitude),
+          getLocationName(coords.latitude, coords.longitude),
+        ])
+          .then(([weatherResponse, locationResponse]) => {
+            setWeatherData(weatherResponse.current_weather || null);
+
+            const placeName = locationResponse.city
+              || locationResponse.locality
+              || locationResponse.principalSubdivision
+              || locationResponse.countryName
+              || '';
+
+            setWeatherLocation(placeName);
+            setWeatherError('');
+          })
+          .catch(() => {
+            setWeatherError('Could not load the weather right now.');
+          });
+      },
+      () => {
+        setWeatherError('Location access is off, so weather is hidden for now.');
+      }
+    );
+  }, []);
+
   const handleSignOut = () => {
     localStorage.removeItem('here.token');
     navigate('/');
@@ -91,6 +158,43 @@ function DashboardPage() {
     );
 
     setJournalStatus(trimmedText ? 'Saved to your dashboard.' : 'Journal cleared.');
+  };
+
+  const persistTasks = (nextTasks) => {
+    localStorage.setItem(TASKS_KEY, JSON.stringify(nextTasks));
+  };
+
+  const handleToggleTask = (taskId) => {
+    setTasks((currentTasks) => {
+      const nextTasks = currentTasks.map((task) => (
+        task.id === taskId ? { ...task, done: !task.done } : task
+      ));
+
+      persistTasks(nextTasks);
+      return nextTasks;
+    });
+  };
+
+  const handleDeleteTask = (taskId) => {
+    setTasks((currentTasks) => {
+      const nextTasks = currentTasks.filter((task) => task.id !== taskId);
+      persistTasks(nextTasks);
+      return nextTasks;
+    });
+  };
+
+  const handleAddTask = () => {
+    const trimmedTask = taskInput.trim();
+
+    if (!trimmedTask) return;
+
+    setTasks((currentTasks) => {
+      const nextTasks = [...currentTasks, createTask(trimmedTask, currentTasks.length)];
+      persistTasks(nextTasks);
+      return nextTasks;
+    });
+
+    setTaskInput('');
   };
 
   const journalPrompt = moodData?.label
@@ -128,52 +232,58 @@ function DashboardPage() {
       </header>
 
       <main className="dashboard__main">
-        <div className="dashboard__grid">
-          {moodData && (
-            <section className="dashboard__mood-card" style={{ borderColor: theme.cardBorder }}>
-              <p className="dashboard__mood-label">Today&apos;s check-in</p>
-              <p className="dashboard__mood-value">
-                {moodData.emoji} {moodData.label}
-              </p>
-            </section>
-          )}
+        <div className="dashboard__layout">
+          <WeatherPanel
+            weatherData={weatherData}
+            weatherLocation={weatherLocation}
+            weatherError={weatherError}
+            temperatureUnit={temperatureUnit}
+            onToggleUnit={() => setTemperatureUnit((currentUnit) => (currentUnit === 'C' ? 'F' : 'C'))}
+          />
 
-          <section className="dashboard__journal-card" style={{ borderColor: theme.cardBorder }}>
-            <div className="dashboard__journal-head">
-              <p className="dashboard__mood-label">Journal</p>
-              <p className="dashboard__journal-prompt">{journalPrompt}</p>
-            </div>
+          <div className="dashboard__content">
+            {moodData && (
+              <section className="dashboard__mood-card" style={{ borderColor: theme.cardBorder }}>
+                <p className="dashboard__mood-label">Today&apos;s check-in</p>
+                <p className="dashboard__mood-value">
+                  {moodData.emoji} {moodData.label}
+                </p>
+              </section>
+            )}
 
-            <label className="dashboard__journal-field" htmlFor="journal-entry">
-              <span className="dashboard__journal-label">A few honest words are enough.</span>
-              <textarea
-                id="journal-entry"
-                className="dashboard__journal-input"
-                placeholder="Write whatever feels true right now..."
-                value={journalText}
-                onChange={(evt) => {
-                  setJournalText(evt.target.value);
+            <div className="dashboard__grid">
+              <TaskCard
+                theme={theme}
+                tasks={tasks}
+                taskInput={taskInput}
+                setTaskInput={setTaskInput}
+                onToggleTask={handleToggleTask}
+                onDeleteTask={handleDeleteTask}
+                onAddTask={handleAddTask}
+              />
+
+              <JournalCard
+                theme={theme}
+                journalPrompt={journalPrompt}
+                journalText={journalText}
+                journalStatus={journalStatus}
+                setJournalText={(value) => {
+                  setJournalText(value);
                   if (journalStatus) {
                     setJournalStatus('');
                   }
                 }}
-                rows={6}
+                onSaveJournal={handleSaveJournal}
               />
-            </label>
-
-            <div className="dashboard__journal-footer">
-              <p className="dashboard__journal-status">{journalStatus}</p>
-              <button
-                type="button"
-                className="dashboard__journal-save"
-                onClick={handleSaveJournal}
-              >
-                Save note
-              </button>
             </div>
-          </section>
+          </div>
         </div>
       </main>
+
+      <footer className="dashboard__footer">
+        <p className="dashboard__footer-text">Take what helps. Leave the rest. Come back whenever you need.</p>
+        <p className="dashboard__copyright">Copyright © 2026 Mona Abdelreheem. All rights reserved.</p>
+      </footer>
     </div>
   );
 }
