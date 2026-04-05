@@ -13,12 +13,24 @@ const MOOD_MESSAGES = {
   Tired: 'Be gentle with yourself today.',
 };
 
+const JOURNAL_KEY = 'here.journalEntry';
+
+const JOURNAL_PROMPTS = {
+  Happy: 'Share something that made you smile today.',
+  Calm: 'Stay with the part of today that felt calm.',
+  Sad: 'Hold onto anything that felt comforting today.',
+  Anxious: 'Come back to one small thing that helped you slow down.',
+  Tired: 'Imagine what real rest would feel like right now.',
+};
+
 function DashboardPage() {
   const navigate = useNavigate();
   const theme = useMoodTheme();
   const [user, setUser] = useState(null);
   const [apiError, setApiError] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [journalText, setJournalText] = useState('');
+  const [journalStatus, setJournalStatus] = useState('');
 
   const moodData = (() => {
     try {
@@ -49,10 +61,41 @@ function DashboardPage() {
       });
   }, [navigate]);
 
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(JOURNAL_KEY);
+
+      if (!raw) return;
+
+      const savedEntry = JSON.parse(raw);
+      setJournalText(savedEntry.text || '');
+    } catch {
+      setJournalText('');
+    }
+  }, []);
+
   const handleSignOut = () => {
     localStorage.removeItem('here.token');
     navigate('/');
   };
+
+  const handleSaveJournal = () => {
+    const trimmedText = journalText.trim();
+
+    localStorage.setItem(
+      JOURNAL_KEY,
+      JSON.stringify({
+        text: trimmedText,
+        updatedAt: new Date().toISOString(),
+      })
+    );
+
+    setJournalStatus(trimmedText ? 'Saved to your dashboard.' : 'Journal cleared.');
+  };
+
+  const journalPrompt = moodData?.label
+    ? JOURNAL_PROMPTS[moodData.label] || 'What is on your mind today?'
+    : 'What is on your mind today?';
 
   return (
     <div className="dashboard" style={{ background: theme.page }}>
@@ -85,14 +128,51 @@ function DashboardPage() {
       </header>
 
       <main className="dashboard__main">
-        {moodData && (
-          <section className="dashboard__mood-card" style={{ borderColor: theme.cardBorder }}>
-            <p className="dashboard__mood-label">Today&apos;s check-in</p>
-            <p className="dashboard__mood-value">
-              {moodData.emoji} {moodData.label}
-            </p>
+        <div className="dashboard__grid">
+          {moodData && (
+            <section className="dashboard__mood-card" style={{ borderColor: theme.cardBorder }}>
+              <p className="dashboard__mood-label">Today&apos;s check-in</p>
+              <p className="dashboard__mood-value">
+                {moodData.emoji} {moodData.label}
+              </p>
+            </section>
+          )}
+
+          <section className="dashboard__journal-card" style={{ borderColor: theme.cardBorder }}>
+            <div className="dashboard__journal-head">
+              <p className="dashboard__mood-label">Journal</p>
+              <p className="dashboard__journal-prompt">{journalPrompt}</p>
+            </div>
+
+            <label className="dashboard__journal-field" htmlFor="journal-entry">
+              <span className="dashboard__journal-label">A few honest words are enough.</span>
+              <textarea
+                id="journal-entry"
+                className="dashboard__journal-input"
+                placeholder="Write whatever feels true right now..."
+                value={journalText}
+                onChange={(evt) => {
+                  setJournalText(evt.target.value);
+                  if (journalStatus) {
+                    setJournalStatus('');
+                  }
+                }}
+                rows={6}
+              />
+            </label>
+
+            <div className="dashboard__journal-footer">
+              <p className="dashboard__journal-status">{journalStatus}</p>
+              <button
+                type="button"
+                className="dashboard__journal-save"
+                onClick={handleSaveJournal}
+              >
+                Save note
+              </button>
+            </div>
           </section>
-        )}
+        </div>
       </main>
     </div>
   );

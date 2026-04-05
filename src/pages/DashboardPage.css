@@ -91,6 +91,13 @@
   box-sizing: border-box;
 }
 
+.dashboard__grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: start;
+}
+
 .dashboard__mood-card {
   background: #ffffff;
   border: 1px solid #d7ddcd;
@@ -118,6 +125,100 @@
   color: #394334;
 }
 
+.dashboard__journal-card {
+  background: #ffffff;
+  border: 1px solid #d7ddcd;
+  border-radius: 16px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 4px 12px rgba(80, 90, 76, 0.08);
+}
+
+.dashboard__journal-head {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dashboard__journal-prompt {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #3f493a;
+}
+
+.dashboard__journal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dashboard__journal-label {
+  font-size: 0.88rem;
+  color: #5d6758;
+}
+
+.dashboard__journal-input {
+  min-height: 140px;
+  resize: vertical;
+  border: 1px solid #d7ddcd;
+  border-radius: 14px;
+  padding: 14px 16px;
+  font: inherit;
+  line-height: 1.55;
+  color: #394334;
+  background: #fcfdf9;
+  outline: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.dashboard__journal-input:focus {
+  border-color: #8ea17d;
+  box-shadow: 0 0 0 3px rgba(142, 161, 125, 0.18);
+}
+
+.dashboard__journal-input::placeholder {
+  color: #9baa8f;
+}
+
+.dashboard__journal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dashboard__journal-status {
+  margin: 0;
+  font-size: 0.84rem;
+  color: #7a8f6e;
+}
+
+.dashboard__journal-save {
+  border: none;
+  background: #6f8161;
+  color: #ffffff;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.dashboard__journal-save:hover {
+  opacity: 0.9;
+}
+
+@media (max-width: 720px) {
+  .dashboard__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
 @media (max-width: 480px) {
   .dashboard__header {
     padding: 12px 16px;
@@ -129,5 +230,15 @@
 
   .dashboard__name {
     display: none;
+  }
+
+  .dashboard__journal-card,
+  .dashboard__mood-card {
+    padding: 18px;
+  }
+
+  .dashboard__journal-footer {
+    flex-direction: column;
+    align-items: stretch;
   }
 }
