@@ -5,6 +5,14 @@ import useMoodTheme from '../utils/useMoodTheme';
 import AnimatedHere from '../components/AnimatedHere/AnimatedHere';
 import './DashboardPage.css';
 
+const MOOD_MESSAGES = {
+  Happy: 'Glad to have you here today.',
+  Calm: 'A peaceful moment starts now.',
+  Sad: "It's okay — you don't have to be okay.",
+  Anxious: "Breathe. You're doing better than you think.",
+  Tired: 'Be gentle with yourself today.',
+};
+
 function DashboardPage() {
   const navigate = useNavigate();
   const theme = useMoodTheme();
@@ -55,9 +63,16 @@ function DashboardPage() {
           {isLoading && <span className="dashboard__loading">Loading…</span>}
           {!isLoading && apiError && <span className="dashboard__error">{apiError}</span>}
           {!isLoading && user && (
-            <span className="dashboard__name">
-              {moodData?.emoji && <span aria-hidden="true">{moodData.emoji}</span>} Welcome back, {user.name}
-            </span>
+            <div className="dashboard__name-group">
+              <span className="dashboard__name">
+                Welcome back, {user.name}
+              </span>
+              {moodData?.label && (
+                <span className="dashboard__tagline">
+                  {MOOD_MESSAGES[moodData.label] ?? 'We\'re glad you\'re here.'}
+                </span>
+              )}
+            </div>
           )}
           <button
             type="button"

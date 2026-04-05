@@ -40,6 +40,20 @@
   gap: 6px;
 }
 
+.dashboard__name-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-end;
+}
+
+.dashboard__tagline {
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: #7a8f6e;
+  font-style: italic;
+}
+
 .dashboard__loading {
   font-size: 0.9rem;
   color: #9baa8f;
