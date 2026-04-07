@@ -67,17 +67,21 @@ npm run build
 npm run preview
 ```
 
-## Backend Notes
+## Deployment
 
-The frontend is currently set up to talk to the backend at:
+For Stage 1, use GitHub Pages.
 
-```txt
-http://localhost:3001
+```bash
+npm run deploy
 ```
 
-This is configured in `src/constants.js`.
+In GitHub Pages, use the `gh-pages` branch and the `/ (root)` folder.
 
-If the backend is not running, the auth flow falls back to local storage so the frontend can still be tested and demoed. That fallback is there to make development easier, not to replace a real backend in production.
+Live URL:
+
+```txt
+https://monaabdelreheem.github.io/here-frontend/
+```
 
 ## Scripts
 
