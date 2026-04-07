@@ -112,16 +112,44 @@ public/
 
 The animated SVG weather icons used by the dashboard live in `public/weather`.
 
+## Screenshots
+
+The app is meant to look a little different across the flow. The color palette changes with the selected mood, so the different looks in the screenshots are intentional and part of the experience.
+Each color palette was chosen to match the emotion on the screen and gently shape the feeling of the page.
+
+### Intro
+
+![Intro page](./screenshots/into-page.png)
+
+### Mood Check
+
+![Mood check page](./screenshots/mood-check-page.png)
+
+### Sign Up
+
+![Sign up page](./screenshots/sign-up-page.png)
+
+### Dashboard
+
+![Dashboard page](./screenshots/dashboard-page.png)
+
+## Credits
+
+- Weather icons: Bas Milius, weather-icons / Meteocons repository
+- Weather icon source: https://github.com/basmilius/weather-icons
+- Weather icon license: MIT
+- Ambient audio: `public/audio/ambient.mp3` - "Cylinder Five" by Chris Zabriskie
+- Ambient audio license: CC BY 4.0
+
 ## Current Status
 
-The frontend builds successfully and the main user flow is working from the intro screen all the way to the dashboard.
-
-At this point, the main work left is final polish: deployment, backend consistency, and a last cleanup pass before submission.
+The frontend builds successfully and the main user flow is working from the intro screen to the dashboard.
 
 ## Coming Updates
 
 Some features I still want to add next are:
 
+- adding the backend with Express.js and MongoDB so the app can support authentication, mood tracking, journaling, and task management
 - music integration through an API
 - supportive quotes through an API
 
