@@ -1,7 +1,26 @@
 import { BASE_URL } from '../constants';
 
 const USERS_KEY = 'here.mockUsers';
-let backendIsAvailable = true;
+const WEATHER_API_BASE = import.meta.env.DEV ? '/weather-api' : 'https://api.open-meteo.com';
+const BACKEND_AVAILABILITY_KEY = 'here.backendAvailable';
+
+function readBackendAvailability() {
+  try {
+    return localStorage.getItem(BACKEND_AVAILABILITY_KEY) !== 'false';
+  } catch {
+    return true;
+  }
+}
+
+function writeBackendAvailability(isAvailable) {
+  try {
+    localStorage.setItem(BACKEND_AVAILABILITY_KEY, String(isAvailable));
+  } catch {
+    // Ignore storage failures and keep runtime behavior only.
+  }
+}
+
+let backendIsAvailable = readBackendAvailability();
 
 function handleResponse(res) {
   return res.ok
@@ -46,7 +65,7 @@ function fallbackSignIn({ email, password }) {
   }
 
   return Promise.resolve({
-    token: `mock-token-${Date.now()}`,
+    token: `mock-token-${encodeURIComponent(normalizedEmail)}-${Date.now()}`,
     user: { name: user.name, email: user.email },
   });
 }
@@ -68,8 +87,24 @@ function getFallbackUserFromToken(token) {
     return null;
   }
 
-  const user = users[users.length - 1];
+  const tokenParts = token.split('-');
+  const encodedEmail = tokenParts.length >= 4 ? tokenParts.slice(2, -1).join('-') : '';
+  const decodedEmail = encodedEmail ? decodeURIComponent(encodedEmail) : '';
+  const user = users.find((item) => item.email === decodedEmail) || users[users.length - 1];
+
   return user ? { name: user.name, email: user.email } : null;
+}
+
+function shouldUseLocalAuth() {
+  if (!backendIsAvailable) {
+    return true;
+  }
+
+  if (getFallbackUserFromToken(localStorage.getItem('here.token') || '')) {
+    return true;
+  }
+
+  return readMockUsers().length > 0;
 }
 
 export function getUserInfo(token) {
@@ -94,7 +129,7 @@ export function getUserInfo(token) {
 }
 
 export function signIn({ email, password }) {
-  if (!backendIsAvailable) {
+  if (shouldUseLocalAuth()) {
     return fallbackSignIn({ email, password });
   }
 
@@ -104,9 +139,15 @@ export function signIn({ email, password }) {
     body: JSON.stringify({ email, password }),
   })
     .then(handleResponse)
+    .then((data) => {
+      backendIsAvailable = true;
+      writeBackendAvailability(true);
+      return data;
+    })
     .catch((err) => {
       if (isNetworkError(err)) {
         backendIsAvailable = false;
+        writeBackendAvailability(false);
         return fallbackSignIn({ email, password });
       }
 
@@ -115,7 +156,7 @@ export function signIn({ email, password }) {
 }
 
 export function signUp({ name, email, password }) {
-  if (!backendIsAvailable) {
+  if (shouldUseLocalAuth()) {
     return fallbackSignUp({ name, email, password });
   }
 
@@ -125,9 +166,15 @@ export function signUp({ name, email, password }) {
     body: JSON.stringify({ name, email, password }),
   })
     .then(handleResponse)
+    .then((data) => {
+      backendIsAvailable = true;
+      writeBackendAvailability(true);
+      return data;
+    })
     .catch((err) => {
       if (isNetworkError(err)) {
         backendIsAvailable = false;
+        writeBackendAvailability(false);
         return fallbackSignUp({ name, email, password });
       }
 
@@ -137,7 +184,7 @@ export function signUp({ name, email, password }) {
 
 export function getWeather(latitude, longitude) {
   return fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
+    `${WEATHER_API_BASE}/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
   ).then(handleResponse);
 }
 
