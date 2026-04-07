@@ -27,6 +27,12 @@ const JOURNAL_PROMPTS = {
   Tired: 'Imagine what real rest would feel like right now.',
 };
 
+const DEFAULT_TASKS = [
+  'Carry one good moment with you.',
+  'Send a kind message to someone.',
+  'Take a short pause and enjoy it.',
+];
+
 function createTask(text, index) {
   return {
     id: `${Date.now()}-${index}-${text.slice(0, 12)}`,
@@ -96,14 +102,25 @@ function DashboardPage() {
     try {
       const raw = localStorage.getItem(TASKS_KEY);
       if (!raw) {
-        setTasks([]);
+        const starterTasks = DEFAULT_TASKS.map((task, index) => createTask(task, index));
+        setTasks(starterTasks);
+        persistTasks(starterTasks);
         return;
       }
 
       const savedTasks = JSON.parse(raw);
-      setTasks(Array.isArray(savedTasks) ? savedTasks : []);
+      if (!Array.isArray(savedTasks) || savedTasks.length === 0) {
+        const starterTasks = DEFAULT_TASKS.map((task, index) => createTask(task, index));
+        setTasks(starterTasks);
+        persistTasks(starterTasks);
+        return;
+      }
+
+      setTasks(savedTasks);
     } catch {
-      setTasks([]);
+      const starterTasks = DEFAULT_TASKS.map((task, index) => createTask(task, index));
+      setTasks(starterTasks);
+      persistTasks(starterTasks);
     }
   }, []);
 

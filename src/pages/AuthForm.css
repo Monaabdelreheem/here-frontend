@@ -117,3 +117,24 @@
   padding: 0;
   text-decoration: underline;
 }
+
+@media (max-width: 560px) {
+  .auth-form-page {
+    padding: 16px;
+    align-items: start;
+  }
+
+  .auth-form__card {
+    border-radius: 14px;
+    padding: 24px 18px;
+  }
+
+  .auth-form__title {
+    margin-bottom: 20px;
+    font-size: 1.45rem;
+  }
+
+  .auth-form__submit {
+    margin-top: 12px;
+  }
+}

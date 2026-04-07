@@ -4,7 +4,7 @@ import './IntroPage.css';
 import { playAmbientAudio, setAmbientVolume } from '../utils/ambientAudio';
 import AnimatedHere from '../components/AnimatedHere/AnimatedHere';
 
-const ENABLE_AMBIENT_AUDIO = false;
+const ENABLE_AMBIENT_AUDIO = false; // Set to true to enable ambient audio on the intro page
 
 function IntroPage() {
   const navigate = useNavigate();

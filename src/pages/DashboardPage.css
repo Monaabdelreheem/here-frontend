@@ -8,6 +8,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
   padding: 16px 24px;
   background: #ffffff;
   border-bottom: 1px solid #d7ddcd;
@@ -29,6 +30,7 @@
   display: flex;
   align-items: center;
   gap: 14px;
+  min-width: 0;
 }
 
 .dashboard__name {
@@ -45,6 +47,7 @@
   flex-direction: column;
   gap: 2px;
   align-items: flex-end;
+  min-width: 0;
 }
 
 .dashboard__tagline {
@@ -52,6 +55,7 @@
   font-weight: 400;
   color: #7a8f6e;
   font-style: italic;
+  text-align: right;
 }
 
 .dashboard__loading {
@@ -511,12 +515,30 @@
 }
 
 @media (max-width: 720px) {
+  .dashboard__header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .dashboard__user {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .dashboard__name-group {
+    align-items: flex-start;
+  }
+
+  .dashboard__tagline {
+    text-align: left;
+  }
+
   .dashboard__layout {
     grid-template-columns: minmax(0, 1fr);
   }
 
   .dashboard__weather-panel {
-    min-height: 320px;
+    min-height: 280px;
   }
 
   .dashboard__grid {
@@ -551,11 +573,19 @@
     font-size: 2.7rem;
   }
 
+  .dashboard__user {
+    gap: 10px;
+  }
+
   .dashboard__footer {
     padding: 0 16px 24px;
   }
 
   .dashboard__name {
+    display: none;
+  }
+
+  .dashboard__tagline {
     display: none;
   }
 
@@ -585,5 +615,11 @@
 
   .dashboard__task-main {
     align-items: flex-start;
+  }
+
+  .dashboard__task-add,
+  .dashboard__journal-save,
+  .dashboard__signout {
+    width: 100%;
   }
 }

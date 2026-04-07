@@ -46,7 +46,6 @@
 
 .intro__text--fade {
   margin: 0;
-  white-space: nowrap;
   opacity: 0;
   animation: fadeInTextUp 0.9s cubic-bezier(0.4, 0.7, 0.2, 1.1) forwards;
 }
@@ -120,6 +119,27 @@
   }
   50% {
     opacity: 0.9;
+  }
+}
+
+@media (max-width: 560px) {
+  .intro {
+    padding: 16px;
+  }
+
+  .intro__content {
+    gap: 18px;
+    max-width: 320px;
+    min-height: 180px;
+  }
+
+  .intro__text {
+    font-size: 1.02rem;
+    margin-bottom: 18px;
+  }
+
+  .intro__text--tap {
+    font-size: 0.82rem;
   }
 }
 
