@@ -3,9 +3,48 @@ import { useNavigate } from 'react-router-dom';
 import './IntroPage.css';
 import AnimatedHere from '../components/AnimatedHere/AnimatedHere';
 
+let ambientAudio = null;
+
+function getAmbientAudio() {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  if (!ambientAudio) {
+    ambientAudio = new Audio(`${import.meta.env.BASE_URL}audio/ambient.mp3`);
+    ambientAudio.loop = true;
+    ambientAudio.preload = 'auto';
+    ambientAudio.volume = 0.5;
+  }
+
+  return ambientAudio;
+}
+
+function playAmbientAudio() {
+  const audio = getAmbientAudio();
+
+  if (!audio) {
+    return Promise.resolve();
+  }
+
+  return audio.play();
+}
+
+function setAmbientVolume(volume) {
+  const audio = getAmbientAudio();
+
+  if (!audio) {
+    return;
+  }
+
+  const safeVolume = Math.max(0, Math.min(1, volume));
+  audio.volume = safeVolume;
+}
+
 function IntroPage() {
   const navigate = useNavigate();
   const [started, setStarted] = useState(false);
+  const [audioStatus, setAudioStatus] = useState('');
   const startedRef = useRef(false);
 
   useEffect(() => {
@@ -18,6 +57,17 @@ function IntroPage() {
     startedRef.current = true;
 
     setStarted(true);
+    setAudioStatus('Starting sound...');
+
+    setAmbientVolume(0.5);
+    playAmbientAudio()
+      .then(() => {
+        setAudioStatus('Sound is on');
+      })
+      .catch((err) => {
+        console.log('Audio play failed:', err);
+        setAudioStatus('Sound was blocked on this tap');
+      });
 
     setTimeout(() => {
       navigate('/mood');
@@ -53,6 +103,7 @@ function IntroPage() {
 
         <p className="intro__text intro__text--fade">Breathe in. You're HERE.</p>
         {!started && <p className="intro__text intro__text--tap">Tap anywhere to begin</p>}
+        {audioStatus && <p className="intro__audio-status">{audioStatus}</p>}
       </div>
     </section>
   );

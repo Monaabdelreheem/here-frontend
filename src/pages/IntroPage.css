@@ -74,6 +74,16 @@
   animation: pulseHint 1.6s ease-in-out infinite;
 }
 
+.intro__audio-status {
+  margin: 0;
+  min-height: 20px;
+  font-size: 13px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #7f956f;
+  opacity: 0.9;
+}
+
 @keyframes pulseHint {
   0%,
   100% {
@@ -102,5 +112,9 @@
 
   .intro__text--tap {
     font-size: 13px;
+  }
+
+  .intro__audio-status {
+    font-size: 12px;
   }
 }
