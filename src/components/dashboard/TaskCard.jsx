@@ -1,3 +1,5 @@
+import './TaskCard.css';
+
 function TaskCard({ theme, tasks, taskInput, setTaskInput, onToggleTask, onDeleteTask, onAddTask }) {
   return (
     <section className="dashboard__tasks-card" style={{ borderColor: theme.cardBorder }}>

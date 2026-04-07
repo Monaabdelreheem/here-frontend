@@ -1,10 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './IntroPage.css';
-import { playAmbientAudio, setAmbientVolume } from '../utils/ambientAudio';
 import AnimatedHere from '../components/AnimatedHere/AnimatedHere';
-
-const ENABLE_AMBIENT_AUDIO = false; // Set to true to enable ambient audio on the intro page
 
 function IntroPage() {
   const navigate = useNavigate();
@@ -21,13 +18,6 @@ function IntroPage() {
     startedRef.current = true;
 
     setStarted(true);
-
-    if (ENABLE_AMBIENT_AUDIO) {
-      setAmbientVolume(0.5);
-      playAmbientAudio().catch((err) => {
-        console.log('Audio play failed:', err);
-      });
-    }
 
     setTimeout(() => {
       navigate('/mood');
@@ -62,7 +52,7 @@ function IntroPage() {
         </h1>
 
         <p className="intro__text intro__text--fade">Breathe in. You're HERE.</p>
-        {!started && <p className="intro__text intro__text--tap">Tap anywhere to start</p>}
+        {!started && <p className="intro__text intro__text--tap">Tap anywhere to begin</p>}
       </div>
     </section>
   );

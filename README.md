@@ -93,6 +93,7 @@ src/
   components/
     AnimatedHere/
     dashboard/
+  fonts/
   pages/
     IntroPage.jsx
     MoodCheckPage.jsx
@@ -101,10 +102,10 @@ src/
     DashboardPage.jsx
   utils/
     api.js
-    ambientAudio.js
     useMoodTheme.js
 public/
-  audio/
+  fonts/
+  images/
   weather/
 ```
 
@@ -119,7 +120,7 @@ Each color palette was chosen to match the emotion on the screen and gently shap
 
 ### Intro
 
-![Intro page](./screenshots/into-page.png)
+![Intro page](./screenshots/intro-page.png)
 
 ### Mood Check
 
@@ -138,8 +139,6 @@ Each color palette was chosen to match the emotion on the screen and gently shap
 - Weather icons: Bas Milius, weather-icons / Meteocons repository
 - Weather icon source: https://github.com/basmilius/weather-icons
 - Weather icon license: MIT
-- Ambient audio: `public/audio/ambient.mp3` - "Cylinder Five" by Chris Zabriskie
-- Ambient audio license: CC BY 4.0
 
 ## Current Status
 
@@ -150,7 +149,6 @@ The frontend builds successfully and the main user flow is working from the intr
 Some features I still want to add next are:
 
 - adding the backend with Express.js and MongoDB so the app can support authentication, mood tracking, journaling, and task management
-- music integration through an API
 - supportive quotes through an API
 
 The goal is to make the dashboard feel more comforting and more personal instead of just functional.

@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { formatDashboardDate, mapWeatherCode, toFahrenheit } from './weatherUtils';
+import './WeatherPanel.css';
 
 function WeatherPanel({ weatherData, weatherLocation, weatherError, temperatureUnit, onToggleUnit }) {
-  const [showWeatherAsset, setShowWeatherAsset] = useState(true);
+  const [failedAsset, setFailedAsset] = useState('');
 
   const weatherMeta = mapWeatherCode(weatherData?.weathercode ?? -1, weatherData?.is_day !== 0);
   const weatherTemperature = weatherData
@@ -10,10 +11,7 @@ function WeatherPanel({ weatherData, weatherLocation, weatherError, temperatureU
       ? `${Math.round(weatherData.temperature)}°C`
       : `${toFahrenheit(weatherData.temperature)}°F`
     : '--';
-
-  useEffect(() => {
-    setShowWeatherAsset(true);
-  }, [weatherMeta.asset]);
+  const showWeatherAsset = failedAsset !== weatherMeta.asset;
 
   return (
     <aside className="dashboard__weather-panel">
@@ -33,10 +31,11 @@ function WeatherPanel({ weatherData, weatherLocation, weatherError, temperatureU
         <div className="dashboard__weather-hero">
           {showWeatherAsset ? (
             <img
+              key={weatherMeta.asset}
               className="dashboard__weather-media"
               src={weatherMeta.asset}
               alt={weatherMeta.label}
-              onError={() => setShowWeatherAsset(false)}
+              onError={() => setFailedAsset(weatherMeta.asset)}
             />
           ) : (
             <span className="dashboard__weather-icon" aria-hidden="true">{weatherMeta.icon}</span>

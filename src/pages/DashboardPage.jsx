@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { STORAGE_KEYS } from '../constants';
 import { getLocationName, getUserInfo, getWeather } from '../utils/api';
 import useMoodTheme from '../utils/useMoodTheme';
 import AnimatedHere from '../components/AnimatedHere/AnimatedHere';
@@ -11,13 +12,10 @@ import './DashboardPage.css';
 const MOOD_MESSAGES = {
   Happy: 'Glad to have you here today.',
   Calm: 'A peaceful moment starts now.',
-  Sad: "It's okay — you don't have to be okay.",
+  Sad: "It's okay. You don't have to be okay.",
   Anxious: "Breathe. You're doing better than you think.",
   Tired: 'Be gentle with yourself today.',
 };
-
-const JOURNAL_KEY = 'here.journalEntry';
-const TASKS_KEY = 'here.dashboardTasks';
 
 const JOURNAL_PROMPTS = {
   Happy: 'Share something that made you smile today.',
@@ -33,6 +31,21 @@ const DEFAULT_TASKS = [
   'Take a short pause and enjoy it.',
 ];
 
+function readStoredJournalText() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEYS.journalEntry);
+
+    if (!raw) {
+      return '';
+    }
+
+    const savedEntry = JSON.parse(raw);
+    return savedEntry.text || '';
+  } catch {
+    return '';
+  }
+}
+
 function createTask(text, index) {
   return {
     id: `${Date.now()}-${index}-${text.slice(0, 12)}`,
@@ -41,32 +54,65 @@ function createTask(text, index) {
   };
 }
 
+function createStarterTasks() {
+  return DEFAULT_TASKS.map((task, index) => createTask(task, index));
+}
+
+function readStoredTasks() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEYS.dashboardTasks);
+
+    if (!raw) {
+      return createStarterTasks();
+    }
+
+    const savedTasks = JSON.parse(raw);
+    return Array.isArray(savedTasks) && savedTasks.length > 0 ? savedTasks : createStarterTasks();
+  } catch {
+    return createStarterTasks();
+  }
+}
+
+function getInitialWeatherError() {
+  return typeof navigator !== 'undefined' && !navigator.geolocation
+    ? 'Location is unavailable on this device.'
+    : '';
+}
+
 function DashboardPage() {
   const navigate = useNavigate();
   const theme = useMoodTheme();
   const [user, setUser] = useState(null);
   const [apiError, setApiError] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  const [journalText, setJournalText] = useState('');
+  const [journalText, setJournalText] = useState(readStoredJournalText);
   const [journalStatus, setJournalStatus] = useState('');
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState(readStoredTasks);
   const [taskInput, setTaskInput] = useState('');
   const [weatherData, setWeatherData] = useState(null);
   const [weatherLocation, setWeatherLocation] = useState('');
-  const [weatherError, setWeatherError] = useState('');
+  const [weatherError, setWeatherError] = useState(getInitialWeatherError);
   const [temperatureUnit, setTemperatureUnit] = useState('C');
 
   const moodData = (() => {
     try {
-      const raw = localStorage.getItem('here.moodCheckin');
+      const raw = localStorage.getItem(STORAGE_KEYS.moodCheckin);
       return raw ? JSON.parse(raw) : null;
     } catch {
       return null;
     }
   })();
 
+  function persistTasks(nextTasks) {
+    localStorage.setItem(STORAGE_KEYS.dashboardTasks, JSON.stringify(nextTasks));
+  }
+
   useEffect(() => {
-    const token = localStorage.getItem('here.token');
+    persistTasks(tasks);
+  }, [tasks]);
+
+  useEffect(() => {
+    const token = localStorage.getItem(STORAGE_KEYS.token);
 
     if (!token) {
       navigate('/signin');
@@ -86,70 +132,35 @@ function DashboardPage() {
   }, [navigate]);
 
   useEffect(() => {
-    try {
-      const raw = localStorage.getItem(JOURNAL_KEY);
-
-      if (!raw) return;
-
-      const savedEntry = JSON.parse(raw);
-      setJournalText(savedEntry.text || '');
-    } catch {
-      setJournalText('');
-    }
-  }, []);
-
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(TASKS_KEY);
-      if (!raw) {
-        const starterTasks = DEFAULT_TASKS.map((task, index) => createTask(task, index));
-        setTasks(starterTasks);
-        persistTasks(starterTasks);
-        return;
-      }
-
-      const savedTasks = JSON.parse(raw);
-      if (!Array.isArray(savedTasks) || savedTasks.length === 0) {
-        const starterTasks = DEFAULT_TASKS.map((task, index) => createTask(task, index));
-        setTasks(starterTasks);
-        persistTasks(starterTasks);
-        return;
-      }
-
-      setTasks(savedTasks);
-    } catch {
-      const starterTasks = DEFAULT_TASKS.map((task, index) => createTask(task, index));
-      setTasks(starterTasks);
-      persistTasks(starterTasks);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!navigator.geolocation) {
-      setWeatherError('Location is unavailable on this device.');
+    if (typeof navigator === 'undefined' || !navigator.geolocation) {
       return;
     }
 
     navigator.geolocation.getCurrentPosition(
       ({ coords }) => {
-        Promise.all([
+        Promise.allSettled([
           getWeather(coords.latitude, coords.longitude),
           getLocationName(coords.latitude, coords.longitude),
         ])
-          .then(([weatherResponse, locationResponse]) => {
-            setWeatherData(weatherResponse.current_weather || null);
+          .then(([weatherResult, locationResult]) => {
+            if (weatherResult.status === 'fulfilled') {
+              setWeatherData(weatherResult.value.current_weather || null);
+              setWeatherError('');
+            } else {
+              setWeatherData(null);
+              setWeatherError('Live weather is unavailable right now.');
+            }
 
-            const placeName = locationResponse.city
-              || locationResponse.locality
-              || locationResponse.principalSubdivision
-              || locationResponse.countryName
-              || '';
+            if (locationResult.status === 'fulfilled') {
+              const locationResponse = locationResult.value;
+              const placeName = locationResponse.city
+                || locationResponse.locality
+                || locationResponse.principalSubdivision
+                || locationResponse.countryName
+                || '';
 
-            setWeatherLocation(placeName);
-            setWeatherError('');
-          })
-          .catch(() => {
-            setWeatherError('Could not load the weather right now.');
+              setWeatherLocation(placeName);
+            }
           });
       },
       () => {
@@ -159,7 +170,7 @@ function DashboardPage() {
   }, []);
 
   const handleSignOut = () => {
-    localStorage.removeItem('here.token');
+    localStorage.removeItem(STORAGE_KEYS.token);
     navigate('/');
   };
 
@@ -167,7 +178,7 @@ function DashboardPage() {
     const trimmedText = journalText.trim();
 
     localStorage.setItem(
-      JOURNAL_KEY,
+      STORAGE_KEYS.journalEntry,
       JSON.stringify({
         text: trimmedText,
         updatedAt: new Date().toISOString(),
@@ -175,10 +186,6 @@ function DashboardPage() {
     );
 
     setJournalStatus(trimmedText ? 'Saved to your dashboard.' : 'Journal cleared.');
-  };
-
-  const persistTasks = (nextTasks) => {
-    localStorage.setItem(TASKS_KEY, JSON.stringify(nextTasks));
   };
 
   const handleToggleTask = (taskId) => {

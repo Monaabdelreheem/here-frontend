@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { STORAGE_KEYS } from '../constants';
 import { signIn } from '../utils/api';
 import useMoodTheme from '../utils/useMoodTheme';
 import './AuthForm.css';
@@ -19,7 +20,7 @@ function SignInPage() {
 
     signIn({ email, password })
       .then((data) => {
-        localStorage.setItem('here.token', data.token);
+        localStorage.setItem(STORAGE_KEYS.token, data.token);
         navigate('/dashboard');
       })
       .catch((err) => {
@@ -39,7 +40,7 @@ function SignInPage() {
         <p className="auth-form__eyebrow">Welcome back</p>
         <h1 className="auth-form__title">Sign In</h1>
 
-        <form className="auth-form__fields" onSubmit={handleSubmit} noValidate>
+        <form className="auth-form__fields" onSubmit={handleSubmit}>
           <label className="auth-form__label">
             Email
             <input

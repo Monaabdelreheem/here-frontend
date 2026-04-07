@@ -1,16 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { DEFAULT_THEME, STORAGE_KEYS } from '../constants';
 import './MoodCheckPage.css';
 
-const THEME_KEY = 'here.moodTheme';
-
-const DEFAULT_THEME = {
-  page: '#f6f0d7',
-  cardBorder: '#d7ddcd',
-  accent: '#6f8161',
-};
-
-const moods = [
+const MOODS = [
   {
     label: 'Happy',
     emoji: '\u{1F60A}',
@@ -46,10 +39,10 @@ const moods = [
 function MoodCheckPage() {
   const navigate = useNavigate();
   const [selectedMood, setSelectedMood] = useState('');
-  const selectedMoodData = moods.find((mood) => mood.label === selectedMood);
+  const selectedMoodData = MOODS.find((mood) => mood.label === selectedMood);
   const savedTheme = (() => {
     try {
-      const raw = sessionStorage.getItem(THEME_KEY);
+      const raw = sessionStorage.getItem(STORAGE_KEYS.theme);
       return raw ? JSON.parse(raw) : null;
     } catch {
       return null;
@@ -58,11 +51,13 @@ function MoodCheckPage() {
 
   const activeTheme = selectedMoodData?.palette || savedTheme || DEFAULT_THEME;
 
+  useEffect(() => {
+    document.body.style.backgroundColor = activeTheme.page;
+  }, [activeTheme.page]);
+
   const handleSelectMood = (mood) => {
     setSelectedMood(mood.label);
-
-    document.body.style.backgroundColor = mood.palette.page;
-    sessionStorage.setItem(THEME_KEY, JSON.stringify(mood.palette));
+    sessionStorage.setItem(STORAGE_KEYS.theme, JSON.stringify(mood.palette));
   };
 
   const handleAuthChoice = (mode) => {
@@ -74,7 +69,7 @@ function MoodCheckPage() {
       createdAt: new Date().toISOString(),
     };
 
-    localStorage.setItem('here.moodCheckin', JSON.stringify(payload));
+    localStorage.setItem(STORAGE_KEYS.moodCheckin, JSON.stringify(payload));
     navigate(`/${mode}`);
   };
 
@@ -92,7 +87,7 @@ function MoodCheckPage() {
         <p className="mood-checkin__subtitle">Pick your mood. Sign In and Sign Up will show up below.</p>
 
         <div className="mood-checkin__grid" role="radiogroup" aria-label="Mood options">
-          {moods.map((mood) => {
+          {MOODS.map((mood) => {
             const isSelected = selectedMood === mood.label;
 
             return (

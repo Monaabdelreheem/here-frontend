@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
+import { STORAGE_KEYS } from '../constants';
 import { signUp, signIn } from '../utils/api';
 import useMoodTheme from '../utils/useMoodTheme';
 import './AuthForm.css';
@@ -21,13 +22,13 @@ function SignUpPage() {
     signUp({ name, email, password })
       .then((data) => {
         if (data?.token) {
-          localStorage.setItem('here.token', data.token);
+          localStorage.setItem(STORAGE_KEYS.token, data.token);
           navigate('/dashboard');
           return null;
         }
 
         return signIn({ email, password }).then((signinData) => {
-          localStorage.setItem('here.token', signinData.token);
+          localStorage.setItem(STORAGE_KEYS.token, signinData.token);
           navigate('/dashboard');
         });
       })
@@ -48,7 +49,7 @@ function SignUpPage() {
         <p className="auth-form__eyebrow">Create your account</p>
         <h1 className="auth-form__title">Sign Up</h1>
 
-        <form className="auth-form__fields" onSubmit={handleSubmit} noValidate>
+        <form className="auth-form__fields" onSubmit={handleSubmit}>
           <label className="auth-form__label">
             Name
             <input

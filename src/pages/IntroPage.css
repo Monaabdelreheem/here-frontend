@@ -1,5 +1,4 @@
 
-/* Ensure base styles for centering and background are present */
 .intro {
   font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   min-height: 100vh;
@@ -26,13 +25,11 @@
   max-width: 500px;
   margin: 0 auto;
   position: relative;
-  min-height: 220px; /* more space for gap */
+  min-height: 220px;
 }
 
 .intro__title {
   margin: 0;
-  color: #89986D;
-  font-weight: 700;
 }
 
 .intro--started .intro__title {
@@ -50,41 +47,6 @@
   animation: fadeInTextUp 0.9s cubic-bezier(0.4, 0.7, 0.2, 1.1) forwards;
 }
 
-.here-animated {
-  display: flex;
-  gap: 0.2em;
-}
-
-.here-letter {
-  opacity: 0;
-  transform: translateY(-80px) scale(0.8) rotate(0deg);
-  display: inline-block;
-  animation: hereFall 3.5s cubic-bezier(0.4, 0.7, 0.2, 1.1) forwards;
-}
-
-@keyframes hereFall {
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1) rotate(0deg);
-  }
-}
-
-.here-letter--flip {
-  animation: hereFlip 3.5s cubic-bezier(0.4, 0.7, 0.2, 1.1) forwards;
-  transform-style: preserve-3d;
-}
-
-@keyframes hereFlip {
-  80% {
-    opacity: 1;
-    transform: translateY(0) scale(1) rotateY(0deg);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0) scale(1) rotateY(180deg);
-  }
-}
-
 @keyframes fadeInTextUp {
   from {
     opacity: 0;
@@ -97,7 +59,7 @@
 }
 
 .intro__text {
-  font-size: 1.2rem;
+  font-size: 19px;
   color: #6b756b;
   font-weight: 500;
   margin-bottom: 24px;
@@ -105,7 +67,7 @@
 
 .intro__text--tap {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: 15px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   opacity: 0.75;
@@ -134,23 +96,11 @@
   }
 
   .intro__text {
-    font-size: 1.02rem;
+    font-size: 16px;
     margin-bottom: 18px;
   }
 
   .intro__text--tap {
-    font-size: 0.82rem;
-  }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    font-size: 13px;
   }
 }

@@ -1,3 +1,5 @@
+import './JournalCard.css';
+
 function JournalCard({ theme, journalPrompt, journalText, journalStatus, setJournalText, onSaveJournal }) {
   return (
     <section className="dashboard__journal-card" style={{ borderColor: theme.cardBorder }}>

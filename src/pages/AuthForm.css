@@ -16,7 +16,7 @@
 
 .auth-form__eyebrow {
   margin: 0 0 6px;
-  font-size: 0.78rem;
+  font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #5b6652;
@@ -26,7 +26,7 @@
 .auth-form__title {
   margin: 0 0 24px;
   color: #394334;
-  font-size: 1.6rem;
+  font-size: 26px;
 }
 
 .auth-form__fields {
@@ -39,7 +39,7 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
-  font-size: 0.9rem;
+  font-size: 14px;
   font-weight: 600;
   color: #3f493a;
 }
@@ -48,7 +48,7 @@
   border: 1px solid #d7ddcd;
   border-radius: 10px;
   padding: 10px 14px;
-  font-size: 1rem;
+  font-size: 16px;
   font-family: inherit;
   color: #394334;
   background: #fafcf7;
@@ -72,7 +72,7 @@
   border: 1px solid #f5c6c2;
   border-radius: 10px;
   color: #a63025;
-  font-size: 0.9rem;
+  font-size: 14px;
 }
 
 .auth-form__submit {
@@ -83,7 +83,7 @@
   background: var(--form-accent, #6f8161);
   color: #ffffff;
   padding: 12px 14px;
-  font-size: 1rem;
+  font-size: 16px;
   font-weight: 700;
   font-family: inherit;
   cursor: pointer;
@@ -102,7 +102,7 @@
 .auth-form__switch {
   margin: 16px 0 0;
   text-align: center;
-  font-size: 0.9rem;
+  font-size: 14px;
   color: #5d6758;
 }
 
@@ -131,7 +131,7 @@
 
   .auth-form__title {
     margin-bottom: 20px;
-    font-size: 1.45rem;
+    font-size: 23px;
   }
 
   .auth-form__submit {

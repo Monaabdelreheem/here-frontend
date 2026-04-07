@@ -21,7 +21,7 @@
   margin: 0;
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
-  font-size: 1.3rem;
+  font-size: 21px;
   color: #394334;
   letter-spacing: 0.08em;
 }
@@ -34,7 +34,7 @@
 }
 
 .dashboard__name {
-  font-size: 0.95rem;
+  font-size: 15px;
   font-weight: 600;
   color: #3f493a;
   display: flex;
@@ -51,7 +51,7 @@
 }
 
 .dashboard__tagline {
-  font-size: 0.78rem;
+  font-size: 12px;
   font-weight: 400;
   color: #7a8f6e;
   font-style: italic;
@@ -59,12 +59,12 @@
 }
 
 .dashboard__loading {
-  font-size: 0.9rem;
+  font-size: 14px;
   color: #9baa8f;
 }
 
 .dashboard__error {
-  font-size: 0.9rem;
+  font-size: 14px;
   color: #a63025;
 }
 
@@ -74,7 +74,7 @@
   color: #3f493a;
   border-radius: 8px;
   padding: 7px 14px;
-  font-size: 0.88rem;
+  font-size: 14px;
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
@@ -103,146 +103,6 @@
   grid-template-columns: 320px minmax(0, 1fr);
   gap: 16px;
   align-items: stretch;
-}
-
-.dashboard__weather-panel {
-  position: relative;
-  overflow: hidden;
-  min-height: 100%;
-  padding: 26px 24px;
-  border-radius: 30px;
-  background:
-    radial-gradient(circle at top left, rgba(255, 255, 255, 0.34), transparent 34%),
-    linear-gradient(180deg, #7a98a6 0%, #5f7f8f 42%, #3e5566 100%);
-  color: #f8fbfd;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-shadow: 0 22px 44px rgba(53, 71, 83, 0.18);
-}
-
-.dashboard__weather-top {
-  position: relative;
-  z-index: 1;
-}
-
-.dashboard__weather-top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-}
-
-.dashboard__weather-label {
-  margin: 0;
-  font-size: 0.76rem;
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  color: rgba(248, 251, 253, 0.76);
-  font-weight: 700;
-}
-
-.dashboard__weather-unit {
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  border-radius: 999px;
-  padding: 8px 12px;
-  font: inherit;
-  font-size: 0.84rem;
-  font-weight: 700;
-  cursor: pointer;
-  backdrop-filter: blur(10px);
-}
-
-.dashboard__weather-body {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-  margin: auto 0;
-}
-
-.dashboard__weather-date,
-.dashboard__weather-place,
-.dashboard__weather-error {
-  margin: 0;
-}
-
-.dashboard__weather-date {
-  font-size: 0.92rem;
-  color: rgba(248, 251, 253, 0.76);
-}
-
-.dashboard__weather-hero {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.dashboard__weather-icon {
-  font-size: 3.4rem;
-  line-height: 1;
-}
-
-.dashboard__weather-media {
-  width: 96px;
-  height: 96px;
-  object-fit: contain;
-  display: block;
-  flex-shrink: 0;
-}
-
-.dashboard__weather-copy {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.dashboard__weather-temp {
-  margin: 0;
-  font-size: 3.2rem;
-  font-weight: 700;
-  letter-spacing: -0.04em;
-}
-
-.dashboard__weather-summary {
-  margin: 0;
-  font-size: 1rem;
-  color: rgba(248, 251, 253, 0.82);
-}
-
-.dashboard__weather-place {
-  font-size: 1.12rem;
-  font-weight: 600;
-}
-
-.dashboard__weather-error {
-  font-size: 0.9rem;
-  color: rgba(255, 239, 230, 0.88);
-  line-height: 1.5;
-}
-
-.dashboard__weather-glow {
-  position: absolute;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.14);
-  filter: blur(8px);
-}
-
-.dashboard__weather-glow--one {
-  width: 180px;
-  height: 180px;
-  top: -30px;
-  right: -40px;
-}
-
-.dashboard__weather-glow--two {
-  width: 140px;
-  height: 140px;
-  bottom: 72px;
-  left: -34px;
 }
 
 .dashboard__content {
@@ -275,7 +135,7 @@
 
 .dashboard__mood-label {
   margin: 0;
-  font-size: 0.78rem;
+  font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   color: #5b6652;
@@ -284,212 +144,12 @@
 
 .dashboard__mood-value {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 18px;
   font-weight: 700;
   color: #394334;
   display: flex;
   align-items: center;
   gap: 8px;
-}
-
-.dashboard__tasks-card,
-.dashboard__journal-card {
-  background: #ffffff;
-  border: 1px solid #d7ddcd;
-  border-radius: 16px;
-  padding: 20px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  height: 100%;
-  box-shadow: 0 4px 12px rgba(80, 90, 76, 0.08);
-}
-
-.dashboard__tasks-head,
-.dashboard__journal-head {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.dashboard__tasks-intro,
-.dashboard__journal-prompt {
-  margin: 0;
-  font-size: 1.02rem;
-  font-weight: 600;
-  color: #3f493a;
-}
-
-.dashboard__tasks-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  flex: 1;
-}
-
-.dashboard__tasks-empty {
-  margin: 0;
-  color: #6f7b68;
-  line-height: 1.6;
-  font-size: 0.95rem;
-}
-
-.dashboard__task {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  border: 1px solid #e0e5d9;
-  border-radius: 12px;
-  padding: 12px 14px;
-  background: #fbfcf8;
-  transition: border-color 0.18s ease, background 0.18s ease;
-}
-
-.dashboard__task:hover {
-  border-color: #bbc8ae;
-}
-
-.dashboard__task-main {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-width: 0;
-  flex: 1;
-  cursor: pointer;
-}
-
-.dashboard__task--done {
-  background: #f1f6ea;
-  border-color: #b8c8a5;
-}
-
-.dashboard__task-checkbox {
-  width: 16px;
-  height: 16px;
-  margin: 0;
-  accent-color: #6f8161;
-  flex-shrink: 0;
-}
-
-.dashboard__task-text {
-  color: #455040;
-  line-height: 1.5;
-}
-
-.dashboard__task--done .dashboard__task-text {
-  color: #708264;
-  text-decoration: line-through;
-}
-
-.dashboard__task-delete {
-  border: none;
-  background: transparent;
-  color: #8a9682;
-  font-size: 0.82rem;
-  font-weight: 700;
-  font-family: inherit;
-  cursor: pointer;
-  padding: 0;
-  flex-shrink: 0;
-}
-
-.dashboard__task-delete:hover {
-  color: #607055;
-}
-
-.dashboard__task-creator {
-  display: flex;
-  gap: 10px;
-  margin-top: auto;
-}
-
-.dashboard__task-input {
-  flex: 1;
-  border: 1px solid #d7ddcd;
-  border-radius: 12px;
-  padding: 11px 14px;
-  font: inherit;
-  color: #394334;
-  background: #fcfdf9;
-  outline: none;
-  transition: border-color 0.18s ease, box-shadow 0.18s ease;
-}
-
-.dashboard__task-input:focus,
-.dashboard__journal-input:focus {
-  border-color: #8ea17d;
-  box-shadow: 0 0 0 3px rgba(142, 161, 125, 0.18);
-}
-
-.dashboard__task-input::placeholder,
-.dashboard__journal-input::placeholder {
-  color: #9baa8f;
-}
-
-.dashboard__task-add,
-.dashboard__journal-save {
-  border: none;
-  background: #6f8161;
-  color: #ffffff;
-  border-radius: 10px;
-  padding: 10px 14px;
-  font-size: 0.9rem;
-  font-weight: 700;
-  font-family: inherit;
-  cursor: pointer;
-  transition: opacity 0.15s ease;
-}
-
-.dashboard__task-add {
-  white-space: nowrap;
-  padding: 11px 14px;
-}
-
-.dashboard__task-add:hover,
-.dashboard__journal-save:hover {
-  opacity: 0.9;
-}
-
-.dashboard__journal-field {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  flex: 1;
-}
-
-.dashboard__journal-label {
-  font-size: 0.88rem;
-  color: #5d6758;
-}
-
-.dashboard__journal-input {
-  min-height: 140px;
-  flex: 1;
-  resize: vertical;
-  border: 1px solid #d7ddcd;
-  border-radius: 14px;
-  padding: 14px 16px;
-  font: inherit;
-  line-height: 1.55;
-  color: #394334;
-  background: #fcfdf9;
-  outline: none;
-  transition: border-color 0.18s ease, box-shadow 0.18s ease;
-}
-
-.dashboard__journal-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin-top: auto;
-}
-
-.dashboard__journal-status {
-  margin: 0;
-  font-size: 0.84rem;
-  color: #7a8f6e;
 }
 
 .dashboard__footer {
@@ -500,7 +160,7 @@
   margin: 0 auto;
   max-width: 900px;
   text-align: center;
-  font-size: 0.92rem;
+  font-size: 15px;
   color: #6f7b68;
   line-height: 1.6;
 }
@@ -509,7 +169,7 @@
   margin: 8px auto 0;
   max-width: 900px;
   text-align: center;
-  font-size: 0.78rem;
+  font-size: 12px;
   color: #8b9684;
   letter-spacing: 0.02em;
 }
@@ -537,10 +197,6 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .dashboard__weather-panel {
-    min-height: 280px;
-  }
-
   .dashboard__grid {
     grid-template-columns: minmax(0, 1fr);
   }
@@ -557,20 +213,6 @@
 
   .dashboard__layout {
     gap: 18px;
-  }
-
-  .dashboard__weather-panel {
-    padding: 22px 18px;
-    border-radius: 24px;
-  }
-
-  .dashboard__weather-hero {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .dashboard__weather-temp {
-    font-size: 2.7rem;
   }
 
   .dashboard__user {
@@ -600,21 +242,6 @@
     justify-content: flex-start;
     flex-direction: column;
     gap: 6px;
-  }
-
-  .dashboard__journal-footer {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .dashboard__task-creator,
-  .dashboard__task {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .dashboard__task-main {
-    align-items: flex-start;
   }
 
   .dashboard__task-add,

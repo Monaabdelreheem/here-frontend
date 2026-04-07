@@ -1,12 +1,12 @@
-import { BASE_URL } from '../constants';
+import { BASE_URL, STORAGE_KEYS } from '../constants';
 
-const USERS_KEY = 'here.mockUsers';
-const WEATHER_API_BASE = import.meta.env.DEV ? '/weather-api' : 'https://api.open-meteo.com';
-const BACKEND_AVAILABILITY_KEY = 'here.backendAvailable';
+const WEATHER_API_BASE = import.meta.env.DEV
+  ? '/api/weather'
+  : 'https://api.open-meteo.com/v1/forecast';
 
 function readBackendAvailability() {
   try {
-    return localStorage.getItem(BACKEND_AVAILABILITY_KEY) !== 'false';
+    return localStorage.getItem(STORAGE_KEYS.backendAvailable) !== 'false';
   } catch {
     return true;
   }
@@ -14,7 +14,7 @@ function readBackendAvailability() {
 
 function writeBackendAvailability(isAvailable) {
   try {
-    localStorage.setItem(BACKEND_AVAILABILITY_KEY, String(isAvailable));
+    localStorage.setItem(STORAGE_KEYS.backendAvailable, String(isAvailable));
   } catch {
     // Ignore storage failures and keep runtime behavior only.
   }
@@ -30,7 +30,7 @@ function handleResponse(res) {
 
 function readMockUsers() {
   try {
-    const raw = localStorage.getItem(USERS_KEY);
+    const raw = localStorage.getItem(STORAGE_KEYS.mockUsers);
     return raw ? JSON.parse(raw) : [];
   } catch {
     return [];
@@ -38,7 +38,7 @@ function readMockUsers() {
 }
 
 function writeMockUsers(users) {
-  localStorage.setItem(USERS_KEY, JSON.stringify(users));
+  localStorage.setItem(STORAGE_KEYS.mockUsers, JSON.stringify(users));
 }
 
 function fallbackSignUp({ name, email, password }) {
@@ -100,7 +100,7 @@ function shouldUseLocalAuth() {
     return true;
   }
 
-  if (getFallbackUserFromToken(localStorage.getItem('here.token') || '')) {
+  if (getFallbackUserFromToken(localStorage.getItem(STORAGE_KEYS.token) || '')) {
     return true;
   }
 
@@ -120,7 +120,7 @@ export function getUserInfo(token) {
     .then(handleResponse)
     .catch((err) => {
       if (isNetworkError(err)) {
-        const recoveredUser = getFallbackUserFromToken(localStorage.getItem('here.token') || '');
+        const recoveredUser = getFallbackUserFromToken(localStorage.getItem(STORAGE_KEYS.token) || '');
         if (recoveredUser) return Promise.resolve(recoveredUser);
         return Promise.reject({ message: 'Could not load user info.' });
       }
@@ -184,7 +184,7 @@ export function signUp({ name, email, password }) {
 
 export function getWeather(latitude, longitude) {
   return fetch(
-    `${WEATHER_API_BASE}/v1/forecast?latitude=${latitude}&longitude=${longitude}&current_weather=true`
+    `${WEATHER_API_BASE}?latitude=${latitude}&longitude=${longitude}&current_weather=true`
   ).then(handleResponse);
 }
 
