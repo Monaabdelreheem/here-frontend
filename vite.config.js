@@ -38,6 +38,7 @@ function localWeatherProxy() {
 }
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ command }) => ({
+  base: command === 'build' ? '/here-frontend/' : '/',
   plugins: [react(), localWeatherProxy()],
-})
+}))
