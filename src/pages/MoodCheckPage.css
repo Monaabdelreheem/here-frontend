@@ -1,0 +1,152 @@
+.mood-checkin {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: #f6f0d7;
+}
+
+.mood-checkin__actions {
+  display: flex;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.mood-checkin__actions--visible {
+  animation: actionsPopIn 0.2s ease-out;
+  transform-origin: center right;
+}
+
+@keyframes actionsPopIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.mood-checkin__action {
+  border-radius: 10px;
+  font-weight: 700;
+  padding: 8px 12px;
+  cursor: pointer;
+  border: 1px solid #d7ddcd;
+  background: #ffffff;
+  color: #3f493a;
+}
+
+.mood-checkin__action--selected {
+  background: #6f8161;
+  border-color: #6f8161;
+  color: #ffffff;
+}
+
+.mood-checkin__card {
+  width: min(760px, 100%);
+  background: #ffffff;
+  border: 1px solid #d7ddcd;
+  border-radius: 22px;
+  box-shadow: 0 14px 28px rgba(80, 90, 76, 0.12);
+  padding: clamp(20px, 4vw, 34px);
+}
+
+.mood-checkin__eyebrow {
+  margin: 0 0 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+  color: #5b6652;
+  font-weight: 700;
+}
+
+.mood-checkin__title {
+  margin: 0;
+  color: #394334;
+  font-size: clamp(24px, 2vw, 32px);
+}
+
+.mood-checkin__subtitle {
+  margin: 10px 0 22px;
+  color: #5c6657;
+}
+
+.mood-checkin__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.mood-chip {
+  display: grid;
+  gap: 4px;
+  text-align: left;
+  border-radius: 14px;
+  border: 1px solid #d3dac8;
+  background: #fafcf7;
+  padding: 12px;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.mood-chip:hover {
+  transform: translateY(-1px);
+  border-color: #9cab84;
+  box-shadow: 0 8px 16px rgba(90, 99, 86, 0.12);
+}
+
+.mood-chip--selected {
+  border-color: #6f8161;
+  background: #eef5e7;
+  box-shadow: 0 0 0 2px rgba(111, 129, 97, 0.18);
+}
+
+.mood-chip__emoji {
+  font-size: 19px;
+  line-height: 1;
+}
+
+.mood-chip__label {
+  font-weight: 700;
+  color: #3f493a;
+}
+
+.mood-chip__desc {
+  color: #5d6758;
+  font-size: 15px;
+}
+
+.mood-checkin__footer {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.mood-checkin__selection {
+  margin: 0;
+  color: #5c6758;
+}
+
+@media (max-width: 640px) {
+  .mood-checkin__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .mood-checkin__footer {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .mood-checkin__actions {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .mood-checkin__action {
+    flex: 1;
+  }
+}

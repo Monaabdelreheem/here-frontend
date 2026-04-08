@@ -1,0 +1,12 @@
+body {
+  font-family: 'Nunito', sans-serif;
+  background: #f6f0d7;
+  color: #394334;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.logo {
+  font-family: 'Poppins', sans-serif;
+}

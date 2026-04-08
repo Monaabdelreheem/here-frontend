@@ -1,0 +1,158 @@
+# HERE Frontend
+
+HERE is a small wellness app frontend built with React and Vite.
+
+The idea behind it is simple: instead of dropping the user straight into a dashboard, the app starts with a short intro, asks how they are feeling, and then carries that mood into the rest of the experience. From there, the user can sign in or sign up and land on a dashboard with weather, a journal space, and a short task list.
+
+## Features
+
+- Intro screen with animated branding
+- Mood check-in before authentication
+- Mood-based theme carried across pages
+- Sign In and Sign Up forms
+- Dashboard with local weather and location
+- Temperature toggle between Celsius and Fahrenheit
+- Small daily task list saved in local storage
+- Journal section saved in local storage
+- Fallback local auth flow when the backend is unavailable
+
+## Tech Stack
+
+- React 19
+- Vite 8
+- React Router 7
+- Plain CSS split by page and component
+- Open-Meteo API for weather data
+- BigDataCloud reverse geocoding for location names
+
+## Project Flow
+
+The current flow through the app is:
+
+1. Intro page
+2. Mood check-in
+3. Sign In or Sign Up
+4. Dashboard
+
+The selected mood is stored and reused to theme later screens.
+
+## Getting Started
+
+### Requirements
+
+- Node.js 18+
+- npm
+
+### Install
+
+```bash
+npm install
+```
+
+### Start the development server
+
+```bash
+npm run dev
+```
+
+### Build for production
+
+```bash
+npm run build
+```
+
+### Preview the production build
+
+```bash
+npm run preview
+```
+
+## Deployment
+
+For Stage 1, use GitHub Pages.
+
+```bash
+npm run deploy
+```
+
+In GitHub Pages, use the `gh-pages` branch and the `/ (root)` folder.
+
+Live URL:
+
+```txt
+https://monaabdelreheem.github.io/here-frontend/
+```
+
+## Scripts
+
+- `npm run dev` starts the Vite development server
+- `npm run build` creates a production build
+- `npm run preview` previews the production build locally
+- `npm run lint` runs ESLint
+
+## Project Structure
+
+```txt
+src/
+  components/
+    AnimatedHere/
+    dashboard/
+  fonts/
+  pages/
+    IntroPage.jsx
+    MoodCheckPage.jsx
+    SignInPage.jsx
+    SignUpPage.jsx
+    DashboardPage.jsx
+  utils/
+    api.js
+    useMoodTheme.js
+public/
+  fonts/
+  images/
+  weather/
+```
+
+## Weather Assets
+
+The animated SVG weather icons used by the dashboard live in `public/weather`.
+
+## Screenshots
+
+The app is meant to look a little different across the flow. The color palette changes with the selected mood, so the different looks in the screenshots are intentional and part of the experience.
+Each color palette was chosen to match the emotion on the screen and gently shape the feeling of the page.
+
+### Intro
+
+![Intro page](./screenshots/intro-page.png)
+
+### Mood Check
+
+![Mood check page](./screenshots/mood-check-page.png)
+
+### Sign Up
+
+![Sign up page](./screenshots/sign-up-page.png)
+
+### Dashboard
+
+![Dashboard page](./screenshots/dashboard-page.png)
+
+## Credits
+
+- Weather icons: Bas Milius, weather-icons / Meteocons repository
+- Weather icon source: https://github.com/basmilius/weather-icons
+- Weather icon license: MIT
+
+## Current Status
+
+The frontend builds successfully and the main user flow is working from the intro screen to the dashboard.
+
+## Coming Updates
+
+Some features I still want to add next are:
+
+- adding the backend with Express.js and MongoDB so the app can support authentication, mood tracking, journaling, and task management
+- supportive quotes through an API
+
+The goal is to make the dashboard feel more comforting and more personal instead of just functional.

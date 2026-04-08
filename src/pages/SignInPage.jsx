@@ -1,0 +1,90 @@
+import { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { STORAGE_KEYS } from '../constants';
+import { signIn } from '../utils/api';
+import useMoodTheme from '../utils/useMoodTheme';
+import './AuthForm.css';
+
+function SignInPage() {
+  const navigate = useNavigate();
+  const theme = useMoodTheme();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    setError('');
+    setIsLoading(true);
+
+    signIn({ email, password })
+      .then((data) => {
+        localStorage.setItem(STORAGE_KEYS.token, data.token);
+        navigate('/dashboard');
+      })
+      .catch((err) => {
+        setError(err.message || 'Something went wrong. Please try again.');
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+
+  return (
+    <main className="auth-form-page" style={{ background: theme.page }}>
+      <section
+        className="auth-form__card"
+        style={{ borderColor: theme.cardBorder, '--form-accent': theme.accent }}
+      >
+        <p className="auth-form__eyebrow">Welcome back</p>
+        <h1 className="auth-form__title">Sign In</h1>
+
+        <form className="auth-form__fields" onSubmit={handleSubmit}>
+          <label className="auth-form__label">
+            Email
+            <input
+              className="auth-form__input"
+              type="email"
+              name="email"
+              placeholder="you@example.com"
+              required
+              value={email}
+              onChange={(evt) => setEmail(evt.target.value)}
+            />
+          </label>
+
+          <label className="auth-form__label">
+            Password
+            <input
+              className="auth-form__input"
+              type="password"
+              name="password"
+              placeholder="Your password"
+              required
+              value={password}
+              onChange={(evt) => setPassword(evt.target.value)}
+            />
+          </label>
+
+          {error && <p className="auth-form__error">{error}</p>}
+
+          <button
+            type="submit"
+            className="auth-form__submit"
+            disabled={isLoading || !email || !password}
+          >
+            {isLoading ? 'Signing in…' : 'Sign In'}
+          </button>
+        </form>
+
+        <p className="auth-form__switch">
+          Don&apos;t have an account?{' '}
+          <Link to="/signup" className="auth-form__switch-link">Sign Up</Link>
+        </p>
+      </section>
+    </main>
+  );
+}
+
+export default SignInPage;

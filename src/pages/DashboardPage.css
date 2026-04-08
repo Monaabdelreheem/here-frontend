@@ -1,0 +1,252 @@
+.dashboard {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 24px;
+  background: #ffffff;
+  border-bottom: 1px solid #d7ddcd;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.dashboard__logo {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 21px;
+  color: #394334;
+  letter-spacing: 0.08em;
+}
+
+.dashboard__user {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.dashboard__name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #3f493a;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dashboard__name-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  align-items: flex-end;
+  min-width: 0;
+}
+
+.dashboard__tagline {
+  font-size: 12px;
+  font-weight: 400;
+  color: #7a8f6e;
+  font-style: italic;
+  text-align: right;
+}
+
+.dashboard__loading {
+  font-size: 14px;
+  color: #9baa8f;
+}
+
+.dashboard__error {
+  font-size: 14px;
+  color: #a63025;
+}
+
+.dashboard__signout {
+  border: 1px solid #d7ddcd;
+  background: #ffffff;
+  color: #3f493a;
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.dashboard__signout:hover {
+  background: #f4f7f0;
+  border-color: #aab99a;
+}
+
+.dashboard__main {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding: 24px 18px;
+  width: 100%;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.dashboard__layout {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 16px;
+  align-items: stretch;
+}
+
+.dashboard__content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+.dashboard__grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  width: 100%;
+}
+
+.dashboard__mood-card {
+  background: #ffffff;
+  border: 1px solid #d7ddcd;
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 8px 18px rgba(80, 90, 76, 0.06);
+}
+
+.dashboard__mood-label {
+  margin: 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #5b6652;
+  font-weight: 700;
+}
+
+.dashboard__mood-value {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #394334;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dashboard__footer {
+  padding: 0 24px 28px;
+}
+
+.dashboard__footer-text {
+  margin: 0 auto;
+  max-width: 900px;
+  text-align: center;
+  font-size: 15px;
+  color: #6f7b68;
+  line-height: 1.6;
+}
+
+.dashboard__copyright {
+  margin: 8px auto 0;
+  max-width: 900px;
+  text-align: center;
+  font-size: 12px;
+  color: #8b9684;
+  letter-spacing: 0.02em;
+}
+
+@media (max-width: 720px) {
+  .dashboard__header {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .dashboard__user {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .dashboard__name-group {
+    align-items: flex-start;
+  }
+
+  .dashboard__tagline {
+    text-align: left;
+  }
+
+  .dashboard__layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .dashboard__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard__header {
+    padding: 12px 16px;
+  }
+
+  .dashboard__main {
+    padding: 18px 14px;
+  }
+
+  .dashboard__layout {
+    gap: 18px;
+  }
+
+  .dashboard__user {
+    gap: 10px;
+  }
+
+  .dashboard__footer {
+    padding: 0 16px 24px;
+  }
+
+  .dashboard__name {
+    display: none;
+  }
+
+  .dashboard__tagline {
+    display: none;
+  }
+
+  .dashboard__journal-card,
+  .dashboard__mood-card,
+  .dashboard__tasks-card {
+    padding: 18px;
+  }
+
+  .dashboard__mood-card {
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .dashboard__task-add,
+  .dashboard__journal-save,
+  .dashboard__signout {
+    width: 100%;
+  }
+}

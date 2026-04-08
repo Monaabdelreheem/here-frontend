@@ -1,0 +1,60 @@
+.here-animated {
+  display: flex;
+  gap: 0.2em;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  color: #89986d;
+}
+
+.here-animated--small {
+  font-size: 19px;
+  gap: 0.12em;
+}
+
+/* ── Dashboard: continuous bounce ── */
+.here-letter {
+  display: inline-block;
+  animation: hereBounce 2.4s ease-in-out infinite;
+}
+
+.here-letter--flip {
+  display: inline-block;
+  animation: hereFlipLoop 2.4s ease-in-out infinite;
+}
+
+@keyframes hereBounce {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  40%       { transform: translateY(-6px); opacity: 0.75; }
+  60%       { transform: translateY(-4px); opacity: 0.9; }
+}
+
+@keyframes hereFlipLoop {
+  0%, 100% { transform: translateY(0) rotateY(180deg); opacity: 1; }
+  40%       { transform: translateY(-6px) rotateY(180deg); opacity: 0.75; }
+  60%       { transform: translateY(-4px) rotateY(180deg); opacity: 0.9; }
+}
+
+/* ── Intro: one-shot fall ── */
+.here-letter--intro {
+  opacity: 0;
+  transform: translateY(-80px) scale(0.8);
+  animation: hereFall 3.5s cubic-bezier(0.4, 0.7, 0.2, 1.1) forwards;
+}
+
+.here-letter--flip-intro {
+  animation: hereFlipIntro 3.5s cubic-bezier(0.4, 0.7, 0.2, 1.1) forwards;
+  transform-style: preserve-3d;
+}
+
+@keyframes hereFall {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes hereFlipIntro {
+  80%  { opacity: 1; transform: translateY(0) scale(1) rotateY(0deg); }
+  100% { opacity: 1; transform: translateY(0) scale(1) rotateY(180deg); }
+}
+
